@@ -15,6 +15,8 @@ const projectList = document.querySelector("[data-project-list]");
 const projectMessage = document.querySelector("[data-project-message]");
 const uploadInput = document.querySelector("[data-media-input]");
 const uploadMessage = document.querySelector("[data-upload-message]");
+const uploadTarget = document.querySelector("[data-upload-target]");
+const imageDbKeyInput = document.querySelector("[data-image-db-key]");
 
 const contentFields = [
   ["heroName", "Hero Name"],
@@ -41,7 +43,24 @@ const contentFields = [
   ["contactBody", "Contact Body"],
   ["email", "Email"],
   ["location", "Location"],
-  ["workplace", "Workplace"]
+  ["workplace", "Workplace"],
+  ["heroMediaUrl", "Hero Image URL"],
+  ["heroMediaType", "Hero Media Type"],
+  ["aboutMediaUrl", "About Image URL"],
+  ["aboutMediaType", "About Media Type"],
+  ["servicesMediaUrl", "Services Image URL"],
+  ["servicesMediaType", "Services Media Type"],
+  ["processMediaUrl", "Process Image URL"],
+  ["processMediaType", "Process Media Type"],
+  ["experienceMediaUrl", "Experience Image URL"],
+  ["experienceMediaType", "Experience Media Type"],
+  ["statementMediaUrl", "Statement Background URL"],
+  ["statementMediaType", "Statement Media Type"],
+  ["contactMediaUrl", "Contact Image URL"],
+  ["contactMediaType", "Contact Media Type"],
+  ["footerMediaUrl", "Footer Image URL"],
+  ["footerMediaType", "Footer Media Type"],
+  ["ogImageUrl", "Open Graph Image URL"]
 ];
 
 let services;
@@ -60,11 +79,23 @@ function renderContentForm(content = defaultSiteContent) {
     .map(([key, label]) => {
       const value = content[key] || "";
       const isLong = key.endsWith("Body") || key.endsWith("Title");
-      const input = isLong
-        ? `<textarea name="${key}" rows="3">${escapeHtml(value)}</textarea>`
-        : `<input name="${key}" value="${escapeHtml(value)}" />`;
+      const isMedia = key.includes("Media") || key === "ogImageUrl";
+      let input;
 
-      return `<label class="${isLong ? "wide" : ""}">${label}${input}</label>`;
+      if (key.endsWith("MediaType")) {
+        input = `
+          <select name="${key}">
+            <option value="image" ${value !== "video" ? "selected" : ""}>Image</option>
+            <option value="video" ${value === "video" ? "selected" : ""}>Video</option>
+          </select>
+        `;
+      } else if (isLong) {
+        input = `<textarea name="${key}" rows="3">${escapeHtml(value)}</textarea>`;
+      } else {
+        input = `<input name="${key}" value="${escapeHtml(value)}" />`;
+      }
+
+      return `<label class="${isLong || isMedia ? "wide" : ""}">${label}${input}</label>`;
     })
     .join("");
 }
@@ -126,6 +157,10 @@ async function refreshData() {
 }
 
 async function boot() {
+  if (imageDbKeyInput) {
+    imageDbKeyInput.value = localStorage.getItem("zidanImageDbApiKey") || "";
+  }
+
   renderContentForm(defaultSiteContent);
   renderProjectList();
   fillProjectForm(projects[0] || {});
@@ -229,6 +264,11 @@ document.querySelector("[data-delete-project]").addEventListener("click", async 
   }
 });
 
+document.querySelector("[data-save-image-db-key]").addEventListener("click", () => {
+  localStorage.setItem("zidanImageDbApiKey", imageDbKeyInput.value.trim());
+  setMessage(uploadMessage, "ImageDB key saved in this browser.");
+});
+
 document.querySelector("[data-upload-media]").addEventListener("click", async () => {
   const file = uploadInput.files?.[0];
   if (!file) {
@@ -239,9 +279,25 @@ document.querySelector("[data-upload-media]").addEventListener("click", async ()
   try {
     setMessage(uploadMessage, "Uploading 0%...");
     const media = await uploadMedia(file, (percent) => setMessage(uploadMessage, `Uploading ${percent}%...`));
-    projectForm.mediaUrl.value = media.url;
-    projectForm.mediaType.value = media.type;
-    setMessage(uploadMessage, "Uploaded. The media URL was added to the project form.");
+    const target = uploadTarget.value;
+
+    if (target === "project") {
+      projectForm.mediaUrl.value = media.url;
+      projectForm.mediaType.value = media.type;
+      setMessage(uploadMessage, "Uploaded. The image URL was added to the selected project form.");
+      return;
+    }
+
+    const field = contentForm.querySelector(`[name="${target}"]`);
+    if (field) field.value = media.url;
+
+    if (target.endsWith("MediaUrl")) {
+      const typeField = contentForm.querySelector(`[name="${target.replace("MediaUrl", "MediaType")}"]`);
+      if (typeField) typeField.value = media.type;
+    }
+
+    await saveSiteContent(formToObject(contentForm));
+    setMessage(uploadMessage, "Uploaded and saved to the selected section.");
   } catch (error) {
     setMessage(uploadMessage, error.message, true);
   }

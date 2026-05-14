@@ -60,6 +60,26 @@ function renderMedia(project, kind = "project-art") {
   return `<div class="${kind} ${escapeHtml(project.artClass || "art-texture")}" role="img" aria-label="${escapeHtml(project.title)} abstract artwork"></div>`;
 }
 
+function createMediaElement(url, type, label) {
+  if (!url) return null;
+
+  const element = type === "video" ? document.createElement("video") : document.createElement("img");
+  element.src = url;
+
+  if (type === "video") {
+    element.autoplay = true;
+    element.muted = true;
+    element.loop = true;
+    element.playsInline = true;
+    element.setAttribute("aria-label", `${label} video`);
+  } else {
+    element.alt = `${label} image`;
+    element.loading = "lazy";
+  }
+
+  return element;
+}
+
 function projectDataset(project) {
   return `data-title="${escapeHtml(project.title)}" data-category="${escapeHtml(project.category)}" data-year="${escapeHtml(project.year)}" data-description="${escapeHtml(project.description)}" data-media-url="${escapeHtml(project.mediaUrl || "")}" data-media-type="${escapeHtml(project.mediaType || "")}"`;
 }
@@ -131,6 +151,24 @@ function applyContent(content) {
     if (!element || merged[key] == null) return;
     element.textContent = merged[key];
     if (key === "email") element.setAttribute("href", `mailto:${merged[key]}`);
+  });
+
+  const ogImage = document.querySelector('meta[property="og:image"]');
+  if (ogImage && merged.ogImageUrl) ogImage.setAttribute("content", merged.ogImageUrl);
+
+  ["hero", "about", "services", "process", "experience", "statement", "contact", "footer"].forEach((slot) => {
+    const holder = document.querySelector(`[data-media-slot="${slot}"]`);
+    const parent = holder?.closest(".hero-visual");
+    const url = merged[`${slot}MediaUrl`];
+    const type = merged[`${slot}MediaType`] || "image";
+
+    if (!holder) return;
+    holder.replaceChildren();
+    holder.classList.toggle("has-custom-media", Boolean(url));
+    parent?.classList.toggle("has-media", Boolean(url));
+
+    const media = createMediaElement(url, type, `${slot} section`);
+    if (media) holder.append(media);
   });
 }
 

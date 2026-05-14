@@ -24,7 +24,24 @@ export const defaultSiteContent = {
   contactBody: "Available for branding, campaign visuals, social media design, posters, and creative visual projects.",
   email: "hello@zidansharma.com",
   location: "Chittagong, Bangladesh",
-  workplace: "ArtShala Global"
+  workplace: "ArtShala Global",
+  heroMediaUrl: "",
+  heroMediaType: "image",
+  aboutMediaUrl: "",
+  aboutMediaType: "image",
+  servicesMediaUrl: "",
+  servicesMediaType: "image",
+  processMediaUrl: "",
+  processMediaType: "image",
+  experienceMediaUrl: "",
+  experienceMediaType: "image",
+  statementMediaUrl: "",
+  statementMediaType: "image",
+  contactMediaUrl: "",
+  contactMediaType: "image",
+  footerMediaUrl: "",
+  footerMediaType: "image",
+  ogImageUrl: ""
 };
 
 export const defaultFeaturedProjects = [

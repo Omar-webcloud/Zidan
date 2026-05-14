@@ -18,7 +18,7 @@
           <a href="#projects">Projects</a>
           <a href="#media">Media</a>
         </nav>
-        <p>Firebase Auth + Firestore + imageDb media storage.</p>
+        <p>Firebase Auth + Firestore + ImageDB media hosting.</p>
       </aside>
 
       <section class="workspace">
@@ -133,12 +133,31 @@
             <div class="card-head">
               <div>
                 <p class="eyebrow">Media</p>
-                <h2>Upload images or videos</h2>
+                <h2>Upload images</h2>
               </div>
             </div>
             <div class="upload-box">
-              <input type="file" accept="image/*,video/*" data-media-input />
-              <button type="button" data-upload-media>Upload to imageDb</button>
+              <label>ImageDB API Key
+                <input data-image-db-key type="password" placeholder="Paste ImgBB API key for this browser" />
+              </label>
+              <button class="ghost" type="button" data-save-image-db-key>Save ImageDB Key</button>
+              <label>Upload Target
+                <select data-upload-target>
+                  <option value="project">Selected project media</option>
+                  <option value="heroMediaUrl">Hero image</option>
+                  <option value="aboutMediaUrl">About image</option>
+                  <option value="servicesMediaUrl">Services image</option>
+                  <option value="processMediaUrl">Process image</option>
+                  <option value="experienceMediaUrl">Experience image</option>
+                  <option value="statementMediaUrl">Statement background</option>
+                  <option value="contactMediaUrl">Contact image</option>
+                  <option value="footerMediaUrl">Footer image/logo</option>
+                  <option value="ogImageUrl">Open Graph share image</option>
+                </select>
+              </label>
+              <input type="file" accept="image/*" data-media-input />
+              <button type="button" data-upload-media>Upload to ImageDB</button>
+              <p>For videos, paste a hosted video URL into the matching media URL field and set its media type to video.</p>
               <p class="message" data-upload-message></p>
             </div>
           </section>
