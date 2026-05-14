@@ -1,0 +1,283 @@
+:root {
+  --bg: #0b0b0b;
+  --panel: #141414;
+  --text: #f5f1e8;
+  --muted: #9a9a9a;
+  --border: rgba(255, 255, 255, 0.14);
+  --accent: #d7ff3f;
+  --black: #000;
+  --display: "Anton", Impact, sans-serif;
+  --body: "Inter", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--black);
+  padding: 0.8rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+button.ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+code {
+  color: var(--accent);
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100svh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-right: 1px solid var(--border);
+  padding: 1.4rem;
+  background: #080808;
+}
+
+.brand,
+h1,
+h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand {
+  font-size: 2rem;
+}
+
+.sidebar nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sidebar nav a,
+.sidebar p,
+.message {
+  color: var(--muted);
+}
+
+.sidebar nav a {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.78rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.workspace {
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 7rem);
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 4rem);
+}
+
+.notice,
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.notice {
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin-bottom: 1rem;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+
+form,
+.content-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.content-grid,
+.project-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.24);
+  color: var(--text);
+  padding: 0.85rem;
+}
+
+select option {
+  color: var(--black);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.check input {
+  width: auto;
+}
+
+.project-admin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.55fr);
+  gap: 1rem;
+}
+
+.project-list {
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+  max-height: 780px;
+  overflow: auto;
+}
+
+.project-row {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.9rem;
+  text-align: left;
+  color: var(--text);
+}
+
+.project-row strong {
+  font-size: 1rem;
+}
+
+.project-row span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-row.is-active {
+  border-color: var(--accent);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.upload-box {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 720px;
+}
+
+@media (max-width: 980px) {
+  .admin-shell,
+  .project-admin-grid,
+  .content-grid,
+  .project-form {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+}

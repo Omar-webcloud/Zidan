@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zidan Sharma — Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <main class="admin-shell">
+      <aside class="sidebar">
+        <a class="brand" href="../index.html">Zidan Admin</a>
+        <nav>
+          <a href="#content">Section Titles</a>
+          <a href="#projects">Projects</a>
+          <a href="#media">Media</a>
+        </nav>
+        <p>Firebase Auth + Firestore + imageDb media storage.</p>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Portfolio CMS</p>
+            <h1>Manage content, projects, images, videos, and media.</h1>
+          </div>
+          <button class="ghost" type="button" data-sign-out hidden>Sign Out</button>
+        </header>
+
+        <section class="notice" data-config-warning hidden>
+          Add your Firebase keys in <code>firebase-config.js</code>, then create an admin user in Firebase Authentication.
+        </section>
+
+        <section class="card auth-card" data-auth-panel>
+          <div>
+            <p class="eyebrow">Admin Login</p>
+            <h2>Sign in to edit the site.</h2>
+          </div>
+          <form data-login-form>
+            <label for="login-email">Email</label>
+            <input id="login-email" name="email" type="email" autocomplete="email" required />
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            <button type="submit">Sign In</button>
+            <p class="message" data-login-message></p>
+          </form>
+        </section>
+
+        <section class="admin-content" data-admin-content hidden>
+          <section id="content" class="card">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">Content</p>
+                <h2>Section titles and contact details</h2>
+              </div>
+              <button type="button" data-save-content>Save Content</button>
+            </div>
+            <form class="content-grid" data-content-form></form>
+            <p class="message" data-content-message></p>
+          </section>
+
+          <section id="projects" class="card">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">Projects</p>
+                <h2>Portfolio entries</h2>
+              </div>
+              <button type="button" data-new-project>New Project</button>
+            </div>
+            <div class="project-admin-grid">
+              <form class="project-form" data-project-form>
+                <input type="hidden" name="id" />
+                <label>Title<input name="title" required /></label>
+                <label>Category<input name="category" required /></label>
+                <label>Category Key
+                  <select name="categoryKey" required>
+                    <option value="branding">Branding</option>
+                    <option value="social">Social Media</option>
+                    <option value="posters">Posters</option>
+                    <option value="campaigns">Campaigns</option>
+                    <option value="visuals">Visuals</option>
+                  </select>
+                </label>
+                <label>Year<input name="year" required /></label>
+                <label>Order<input name="order" type="number" min="0" value="1" required /></label>
+                <label>Layout Size
+                  <select name="size">
+                    <option value="">Normal</option>
+                    <option value="large">Large featured</option>
+                    <option value="wide">Wide grid</option>
+                    <option value="tall">Tall grid</option>
+                  </select>
+                </label>
+                <label>Artwork Style
+                  <select name="artClass">
+                    <option value="art-cafe">Cafe</option>
+                    <option value="art-social">Social</option>
+                    <option value="art-poster">Poster</option>
+                    <option value="art-artshala">ArtShala</option>
+                    <option value="art-product">Product</option>
+                    <option value="art-texture">Texture</option>
+                    <option value="art-studio">Studio</option>
+                    <option value="art-promo">Promo</option>
+                    <option value="art-type">Type</option>
+                    <option value="art-ad">Ad</option>
+                  </select>
+                </label>
+                <label class="wide">Media URL<input name="mediaUrl" placeholder="Upload media or paste a URL" /></label>
+                <label>Media Type
+                  <select name="mediaType">
+                    <option value="">Auto / Placeholder</option>
+                    <option value="image">Image</option>
+                    <option value="video">Video</option>
+                  </select>
+                </label>
+                <label class="check"><input name="featured" type="checkbox" /> Featured work</label>
+                <label class="check"><input name="status" type="checkbox" checked /> Published</label>
+                <label class="wide">Description<textarea name="description" rows="5" required></textarea></label>
+                <div class="form-actions wide">
+                  <button type="submit">Save Project</button>
+                  <button class="ghost" type="button" data-delete-project>Delete</button>
+                </div>
+                <p class="message wide" data-project-message></p>
+              </form>
+              <div class="project-list" data-project-list></div>
+            </div>
+          </section>
+
+          <section id="media" class="card">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">Media</p>
+                <h2>Upload images or videos</h2>
+              </div>
+            </div>
+            <div class="upload-box">
+              <input type="file" accept="image/*,video/*" data-media-input />
+              <button type="button" data-upload-media>Upload to imageDb</button>
+              <p class="message" data-upload-message></p>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>
