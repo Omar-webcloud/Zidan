@@ -1,17 +1,24 @@
-export const firebaseConfig = {
-  apiKey: "PASTE_FIREBASE_API_KEY",
-  authDomain: "PASTE_PROJECT.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
-};
+// Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-export const firebaseEnabled =
-  firebaseConfig.apiKey &&
-  !firebaseConfig.apiKey.startsWith("PASTE_") &&
-  firebaseConfig.projectId &&
-  !firebaseConfig.projectId.startsWith("PASTE_");
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCzIlywTNuon50nClie9QfN8A8m9CM6_u8",
+    authDomain: "zidan-sharma-portfolio.firebaseapp.com",
+    projectId: "zidan-sharma-portfolio",
+    storageBucket: "zidan-sharma-portfolio.firebasestorage.app",
+    messagingSenderId: "119315690535",
+    appId: "1:119315690535:web:b246a393c44789ef328a02",
+    measurementId: "G-KHSTNBBRHR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
 export const imageDbConfig = {
   provider: "firebase-storage",
