@@ -1,4 +1,4 @@
-# Zidan Sharma Portfolio
+# Zidan Portfolio
 
 Premium portfolio website with an `/admin` panel for editing section copy, projects, images, videos, and media.
 
