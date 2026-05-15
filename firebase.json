@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "zidan-sharma-portfolio",
+    "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
