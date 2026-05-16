@@ -153,6 +153,19 @@ function applyContent(content) {
     if (key === "email") element.setAttribute("href", `mailto:${merged[key]}`);
   });
 
+  // Apply social links and labels
+  document.querySelectorAll("[data-social-link]").forEach((link) => {
+    const key = link.dataset.socialLink;
+    if (merged[key]) link.setAttribute("href", merged[key]);
+  });
+  document.querySelectorAll("[data-social-label]").forEach((link) => {
+    const key = link.dataset.socialLabel;
+    if (merged[key]) {
+      link.textContent = merged[key];
+      link.setAttribute("aria-label", merged[key]);
+    }
+  });
+
   const ogImage = document.querySelector('meta[property="og:image"]');
   if (ogImage && merged.ogImageUrl) ogImage.setAttribute("content", merged.ogImageUrl);
 
