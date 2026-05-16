@@ -207,12 +207,27 @@ signOutButton.addEventListener("click", async () => {
   await services.authMod.signOut(services.auth);
 });
 
-document.querySelector("[data-save-content]").addEventListener("click", async () => {
+document.querySelector("[data-save-content]").addEventListener("click", async (event) => {
+  const btn = event.target;
+  const originalText = btn.textContent;
+  
   try {
-    await saveSiteContent(formToObject(contentForm));
-    setMessage(contentMessage, "Content saved.");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+    const data = formToObject(contentForm);
+    console.log("Saving site content:", data);
+    
+    await saveSiteContent(data);
+    setMessage(contentMessage, "✅ Content saved successfully!");
+    await refreshData();
+    
+    setTimeout(() => setMessage(contentMessage, ""), 4000);
   } catch (error) {
-    setMessage(contentMessage, error.message, true);
+    console.error("Save error:", error);
+    setMessage(contentMessage, "❌ Error: " + error.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
   }
 });
 
@@ -235,7 +250,12 @@ projectList.addEventListener("click", (event) => {
 
 projectForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const btn = projectForm.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+
   try {
+    btn.disabled = true;
+    btn.textContent = "Saving...";
     const data = formToObject(projectForm);
     const project = {
       ...data,
@@ -244,12 +264,20 @@ projectForm.addEventListener("submit", async (event) => {
       featured: projectForm.featured.checked,
       status: projectForm.status.checked ? "published" : "draft"
     };
+    console.log("Saving project:", project);
+
     await saveProject(project);
     selectedProjectId = project.id;
-    setMessage(projectMessage, "Project saved.");
+    setMessage(projectMessage, "✅ Project saved successfully!");
     await refreshData();
+    
+    setTimeout(() => setMessage(projectMessage, ""), 4000);
   } catch (error) {
-    setMessage(projectMessage, error.message, true);
+    console.error("Project save error:", error);
+    setMessage(projectMessage, "❌ Error: " + error.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
   }
 });
 
