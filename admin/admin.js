@@ -226,9 +226,15 @@ document.querySelector("[data-save-content]").addEventListener("click", async (e
     btn.disabled = true;
     btn.textContent = "Saving...";
     const data = formToObject(contentForm);
-    console.log("Saving site content:", data);
+    const dataSize = Object.keys(data).length;
+    console.log(`Attempting to save ${dataSize} fields:`, data);
+    
+    if (dataSize === 0) {
+      throw new Error("The form appears to be empty. Please wait for the fields to load or refresh the page.");
+    }
     
     await saveSiteContent(data);
+    console.log("Save operation completed.");
     setMessage(contentMessage, "✅ Content saved successfully!");
     await refreshData();
     
@@ -239,6 +245,19 @@ document.querySelector("[data-save-content]").addEventListener("click", async (e
   } finally {
     btn.disabled = false;
     btn.textContent = originalText;
+  }
+});
+
+document.querySelector("[data-reset-content]").addEventListener("click", async () => {
+  if (!confirm("This will overwrite your online content with the default local values. Continue?")) return;
+  
+  try {
+    setMessage(contentMessage, "Resetting...");
+    await saveSiteContent(defaultSiteContent);
+    setMessage(contentMessage, "✅ Reset to defaults successful!");
+    await refreshData();
+  } catch (error) {
+    setMessage(contentMessage, "❌ Reset failed: " + error.message, true);
   }
 });
 
