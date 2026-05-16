@@ -5,6 +5,9 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
+      ".git/**",
+      ".github/**",
+      ".firebase/**",
       "zidan-sharma-portfolio/**",
       "README.md"
     ],
