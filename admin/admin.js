@@ -1,4 +1,4 @@
-import { firebaseEnabled } from "../firebase-config.js";
+import { firebaseConfig, firebaseEnabled } from "../firebase-config.js";
 import { deleteProject, getFirebaseServices, loadRemotePortfolio, saveProject, saveSiteContent, uploadMedia } from "../firebase-client.js";
 import { defaultFeaturedProjects, defaultPortfolioProjects, defaultSiteContent } from "../site-data.js";
 
@@ -187,7 +187,18 @@ async function boot() {
     signOutButton.hidden = !signedIn;
 
     if (signedIn) {
-      await refreshData();
+      try {
+        await refreshData();
+        const topbar = document.querySelector(".topbar div");
+        const status = document.createElement("p");
+        status.style.color = "var(--accent)";
+        status.style.fontSize = "0.7rem";
+        status.textContent = `Connected to Firestore: ${firebaseConfig.projectId}`;
+        topbar.appendChild(status);
+      } catch (error) {
+        console.error("Initial load error:", error);
+        setMessage(loginMessage, "Connected but failed to load data: " + error.message, true);
+      }
     }
   });
 }

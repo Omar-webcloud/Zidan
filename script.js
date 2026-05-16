@@ -261,16 +261,24 @@ async function hydratePortfolio() {
 
   try {
     const remote = await loadRemotePortfolio();
-    if (remote) {
+    if (remote && Object.keys(remote.content || {}).length > 0) {
+      console.log("Live data loaded from Firestore:", remote.content);
       content = { ...content, ...remote.content };
+      
       const remoteProjects = remote.projects.filter((project) => project.status !== "draft");
       if (remoteProjects.length) {
         featuredProjects = remoteProjects.filter((project) => project.featured);
         portfolioProjects = remoteProjects;
       }
+      
+      // Subtle data indicator
+      const footer = document.querySelector(".footer p");
+      if (footer) footer.textContent += " • Live Content";
+    } else {
+      console.log("No remote content found, using local defaults.");
     }
   } catch (error) {
-    console.warn("Using local portfolio fallback:", error);
+    console.error("Failed to load remote portfolio:", error);
   }
 
   applyContent(content);
